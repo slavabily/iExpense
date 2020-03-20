@@ -39,7 +39,7 @@ class Expenses: ObservableObject {
 }
 
 struct ContentView: View {
-    @State private var showingAddExpence = false
+    @State private var showingAddExpense = false
     
     @ObservedObject var expences = Expenses()
  
@@ -62,14 +62,14 @@ struct ContentView: View {
                 .onDelete(perform: removeItems(at:))
             }
             .navigationBarTitle("iExpense")
-            .navigationBarItems(trailing:
-                Button(action: {
-                    self.showingAddExpence = true
-                }, label: {
-                    Image(systemName: "plus")
-                }))
+            .navigationBarItems(leading: EditButton(),
+                                trailing: Button(action: {
+                                    self.showingAddExpense = true
+                                }, label: {
+                                    Image(systemName: "plus")
+                                }))
         }
-        .sheet(isPresented: $showingAddExpence) {
+        .sheet(isPresented: $showingAddExpense) {
             AddView(expenses: self.expences)
         }
     }
