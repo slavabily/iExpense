@@ -9,6 +9,7 @@
 import SwiftUI
 
 struct AddView: View {
+    @State private var showingBadValueAlert = false
     @State private var name = ""
     @State private var type = "Personal"
     @State private var amount = ""
@@ -29,7 +30,7 @@ struct AddView: View {
                     }
                 }
                 TextField("Amount", text: $amount)
-                    .keyboardType(.numberPad)
+//                    .keyboardType(.numberPad)
             }
             .navigationBarTitle("Add new expense")
         .navigationBarItems(trailing:
@@ -37,9 +38,16 @@ struct AddView: View {
                 if let actualAmount = Int(self.amount) {
                     let item = ExpenseItem(name: self.name, type: self.type, amount: actualAmount)
                     self.expenses.items.append(item)
+                    self.presentationMode.wrappedValue.dismiss()
+                } else {
+                    // problem with entered value description
+                    self.showingBadValueAlert.toggle()
                 }
-                self.presentationMode.wrappedValue.dismiss()
+                
         })
+        }
+        .alert(isPresented: $showingBadValueAlert) {
+            Alert(title: Text("Wromg input!"), message: Text("Entered value is not a nuber. Please, enter the number."), dismissButton: .default(Text("Ok")))
         }
     }
 }
