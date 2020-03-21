@@ -53,11 +53,20 @@ struct ContentView: View {
                                 .font(.headline)
                             Text(item.type)
                         }
-                        
                         Spacer()
-                        Text("$\(item.amount)")
+                        if (0 ..< 10).contains(item.amount) {
+                            Text("$\(item.amount)")
+                            .font(.subheadline)
+                        } else if (10 ..< 100).contains(item.amount) {
+                            Text("$\(item.amount)")
+                                .font(.headline)
+                                .foregroundColor(.blue)
+                        } else if item.amount >= 100 {
+                            Text("$\(item.amount)")
+                                .font(.largeTitle)
+                                .foregroundColor(.red)
+                        }
                     }
-                    
                 }
                 .onDelete(perform: removeItems(at:))
             }
